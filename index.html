@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>श्री आरती संग्रह - Aarti Lyrics Collection</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts for Devanagari -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Yatra+One&family=Noto+Sans+Devanagari:wght@400;600;700;800&family=Tiro+Devanagari+Marathi:ital@0;1&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --font-devanagari-sans: 'Noto Sans Devanagari', sans-serif;
+            --font-devanagari-serif: 'Tiro Devanagari Marathi', serif;
+            --font-devanagari-calligraphy: 'Yatra One', cursive;
+            --font-devanagari-heading: 'Rozha One', serif;
+        }
+
+        body {
+            font-family: var(--font-devanagari-sans);
+            background: #11031d;
+            color: #fce7f3;
+            min-height: 100vh;
+            overflow-x: hidden;
+            user-select: none;
+        }
+
+        .festive-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -2;
+            background: radial-gradient(circle at 20% 20%, #6b1111 0%, transparent 40%),
+                        radial-gradient(circle at 80% 30%, #4a044e 0%, transparent 50%),
+                        radial-gradient(circle at 50% 80%, #78350f 0%, transparent 50%),
+                        radial-gradient(circle at 10% 90%, #312e81 0%, transparent 40%),
+                        linear-gradient(135deg, #0f021a 0%, #20052e 50%, #15001f 100%);
+            background-attachment: fixed;
+        }
+
+        #bokehCanvas {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1; pointer-events: none;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4), inset 0 0 12px 0 rgba(255, 215, 0, 0.08);
+        }
+
+        .glass-card-active {
+            background: rgba(234, 88, 12, 0.25) !important;
+            border: 1px solid rgba(251, 191, 36, 0.7) !important;
+            box-shadow: 0 0 25px rgba(245, 158, 11, 0.35) !important;
+        }
+
+        .glass-bar {
+            background: rgba(23, 7, 33, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(251, 191, 36, 0.25);
+        }
+
+        .glass-modal {
+            background: rgba(18, 4, 28, 0.92);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .glass-btn {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.25), rgba(225, 29, 72, 0.25));
+            border: 1px solid rgba(251, 191, 36, 0.4);
+            backdrop-filter: blur(8px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-btn:active {
+            transform: scale(0.95);
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.4), rgba(225, 29, 72, 0.4));
+        }
+
+        .text-gold-gradient {
+            background: linear-gradient(135deg, #fef08a 0%, #f59e0b 50%, #f97316 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(15, 2, 26, 0.5); }
+        ::-webkit-scrollbar-thumb { background: rgba(245, 158, 11, 0.4); border-radius: 999px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(245, 158, 11, 0.8); }
+
+        .verse-block {
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+            padding-left: 0.75rem;
+        }
+        .verse-block:hover {
+            border-left-color: #f59e0b;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 0 8px 8px 0;
+        }
+
+        @keyframes subtlePulse {
+            0%, 100% { opacity: 0.8; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.03); }
+        }
+        .pulse-glow { animation: subtlePulse 4s infinite ease-in-out; }
+    </style>
+</head>
+<body class="relative min-h-screen text-slate-100 flex flex-col">
+
+    <div class="festive-bg"></div>
+    <canvas id="bokehCanvas"></canvas>
+
+    <!-- HEADER -->
+    <header class="sticky top-0 z-40 glass-bar shadow-2xl">
+        <div class="max-w-7xl mx-auto px-3 py-2.5 flex items-center justify-between border-b border-amber-500/10">
+            <div class="flex items-center gap-2.5">
+                <div class="w-10 h-10 rounded-full glass-card flex items-center justify-center text-amber-400 text-xl border border-amber-400/40 pulse-glow">
+                    🪔
+                </div>
+                <div>
+                    <h1 class="text-lg md:text-xl font-bold tracking-wide text-gold-gradient" style="font-family: var(--font-devanagari-heading);">
+                        आरती संग्रह
+                    </h1>
+                    <p class="text-[10px] md:text-xs text-amber-200/70">संपूर्ण नित्य आरती संग्रह by KRUTISH.A.GHARAT</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-1.5 md:gap-2">
+                <button onclick="openManageModal()" class="glass-btn px-2.5 py-1.5 rounded-xl text-xs md:text-sm font-medium flex items-center gap-1.5 text-amber-200 hover:text-white" title="आरती क्रम">
+                    <i class="fa-solid fa-list-check text-amber-400"></i>
+                    <span class="hidden sm:inline">क्रम व्यवस्थापन</span>
+                </button>
+                <button onclick="openCustomAartiModal()" class="glass-btn px-2.5 py-1.5 rounded-xl text-xs md:text-sm font-medium flex items-center gap-1.5 text-amber-200 hover:text-white" title="नवीन आरती जोडा">
+                    <i class="fa-solid fa-plus text-emerald-400"></i>
+                    <span class="hidden sm:inline">आरती जोडा</span>
+                </button>
+                <button onclick="openShareModal()" class="glass-btn p-2 rounded-xl text-xs md:text-sm text-amber-200 hover:text-white" title="शेअर करा">
+                    <i class="fa-solid fa-qrcode text-amber-300"></i>
+                </button>
+                <button onclick="toggleFullscreen()" class="glass-btn p-2 rounded-xl text-xs md:text-sm text-amber-200 hover:text-white" title="फुलस्क्रीन">
+                    <i class="fa-solid fa-expand text-amber-300" id="fsIcon"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="w-full bg-black/40 py-2 px-3 overflow-x-auto whitespace-nowrap scrollbar-none flex items-center gap-2" id="sequenceBarContainer">
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow max-w-5xl w-full mx-auto px-3 py-4 md:py-6 flex flex-col gap-4">
+        
+        <section class="glass-card rounded-2xl p-3 md:p-4 flex flex-wrap items-center justify-between gap-3 text-xs md:text-sm">
+            <div class="flex items-center flex-wrap gap-2 md:gap-4">
+                <div class="flex items-center gap-1 bg-black/30 rounded-xl p-1 border border-amber-500/20">
+                    <button onclick="adjustFontSize(-2)" class="w-8 h-8 rounded-lg glass-btn flex items-center justify-center font-bold text-amber-300 hover:bg-amber-500/20">A-</button>
+                    <span id="fontSizeDisplay" class="px-2 font-mono text-amber-200 text-xs">22px</span>
+                    <button onclick="adjustFontSize(2)" class="w-8 h-8 rounded-lg glass-btn flex items-center justify-center font-bold text-amber-300 hover:bg-amber-500/20">A+</button>
+                </div>
+
+                <div class="flex items-center gap-1 bg-black/30 rounded-xl p-1 border border-amber-500/20">
+                    <button onclick="setFontFamily('sans')" id="fontBtnSans" class="px-2.5 py-1 rounded-lg text-xs font-medium transition-all bg-amber-500/30 text-amber-200 border border-amber-400/50">साधी</button>
+                    <button onclick="setFontFamily('serif')" id="fontBtnSerif" class="px-2.5 py-1 rounded-lg text-xs font-medium transition-all text-amber-300 hover:bg-white/5">पारंपारिक</button>
+                    <button onclick="setFontFamily('calligraphy')" id="fontBtnCalligraphy" class="px-2.5 py-1 rounded-lg text-xs font-medium transition-all text-amber-300 hover:bg-white/5">कलात्मक</button>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-2 bg-black/30 rounded-xl px-3 py-1.5 border border-amber-500/20 w-full sm:w-auto justify-between sm:justify-start">
+                <button id="autoScrollToggleBtn" onclick="toggleAutoScroll()" class="glass-btn px-3 py-1 rounded-lg flex items-center gap-1.5 text-xs font-semibold text-emerald-300">
+                    <i class="fa-solid fa-play" id="scrollPlayIcon"></i>
+                    <span id="scrollStatusText">ऑटो-स्क्रोल चालू</span>
+                </button>
+                
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-gauge-high text-amber-400/70 text-xs"></i>
+                    <input type="range" id="scrollSpeedSlider" min="1" max="10" value="3" oninput="updateScrollSpeed(this.value)" class="w-20 md:w-28 accent-amber-500 bg-amber-950/50 rounded-lg cursor-pointer">
+                    <span id="speedValueDisplay" class="text-[11px] font-mono text-amber-300/80 w-6">3x</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="glass-card rounded-3xl p-4 md:p-8 flex-grow relative overflow-hidden flex flex-col transition-all">
+            <div class="text-center border-b border-amber-500/20 pb-5 mb-6 relative">
+                <span id="aartiDeityBadge" class="inline-block px-3 py-1 rounded-full text-xs font-medium bg-amber-500/20 text-amber-300 border border-amber-400/30 mb-2">
+                    श्री गणेश
+                </span>
+                <h2 id="aartiTitle" class="text-2xl md:text-4xl font-extrabold text-gold-gradient tracking-wide mb-1" style="font-family: var(--font-devanagari-heading);">
+                    सुखकर्ता दुखहर्ता
+                </h2>
+                <p id="aartiSubtitle" class="text-xs md:text-sm text-amber-200/60 font-light">
+                    (श्री गणपतीची आरती)
+                </p>
+
+                <button onclick="navigateAarti(-1)" class="absolute left-0 top-1/2 -translate-y-1/2 glass-btn w-10 h-10 rounded-full flex items-center justify-center text-amber-300 hover:text-white">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+                <button onclick="navigateAarti(1)" class="absolute right-0 top-1/2 -translate-y-1/2 glass-btn w-10 h-10 rounded-full flex items-center justify-center text-amber-300 hover:text-white">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            </div>
+
+            <div id="lyricsContent" class="lyrics-text-area leading-relaxed text-center space-y-6 py-2 transition-all duration-300 max-w-3xl mx-auto w-full">
+            </div>
+
+            <div class="mt-8 pt-4 border-t border-amber-500/20 flex items-center justify-between text-xs text-amber-200/70">
+                <button onclick="navigateAarti(-1)" class="hover:text-amber-300 flex items-center gap-1">
+                    <i class="fa-solid fa-arrow-left"></i> मागील आरती
+                </button>
+                <span id="aartiCounterText" class="font-mono text-amber-400/80">1 / 21</span>
+                <button onclick="navigateAarti(1)" class="hover:text-amber-300 flex items-center gap-1">
+                    पुढील आरती <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <!-- MODALS -->
+    <div id="manageModal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-md hidden flex items-center justify-center p-3">
+        <div class="glass-modal w-full max-w-lg rounded-3xl p-5 md:p-6 shadow-2xl border border-amber-500/30 flex flex-col max-h-[90vh]">
+            <div class="flex items-center justify-between border-b border-amber-500/20 pb-3 mb-4">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-bars-staggered text-amber-400 text-lg"></i>
+                    <h3 class="text-lg font-bold text-amber-200">आरती क्रम व व्यवस्थापन</h3>
+                </div>
+                <button onclick="closeManageModal()" class="text-amber-400/60 hover:text-amber-200 text-xl font-bold px-2">&times;</button>
+            </div>
+            <div id="manageAartiList" class="overflow-y-auto space-y-2 flex-grow pr-1"></div>
+            <div class="mt-4 pt-3 border-t border-amber-500/20 flex justify-between items-center">
+                <button onclick="resetAartiOrder()" class="text-xs text-rose-400 hover:text-rose-300 underline">मूळ क्रम पुनर्संचयित करा</button>
+                <button onclick="closeManageModal()" class="glass-btn px-5 py-2 rounded-xl text-xs font-bold text-amber-200">पूर्ण झाले</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="customAartiModal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-md hidden flex items-center justify-center p-3">
+        <div class="glass-modal w-full max-w-xl rounded-3xl p-5 md:p-6 shadow-2xl border border-amber-500/30 flex flex-col max-h-[90vh]">
+            <div class="flex items-center justify-between border-b border-amber-500/20 pb-3 mb-4">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-pen-to-square text-emerald-400 text-lg"></i>
+                    <h3 class="text-lg font-bold text-amber-200">नवीन आरती जोडा</h3>
+                </div>
+                <button onclick="closeCustomAartiModal()" class="text-amber-400/60 hover:text-amber-200 text-xl font-bold px-2">&times;</button>
+            </div>
+            <form id="addAartiForm" onsubmit="handleSaveCustomAarti(event)" class="space-y-4 overflow-y-auto pr-1 flex-grow">
+                <div>
+                    <label class="block text-xs font-semibold text-amber-300 mb-1">आरतीचे नाव *</label>
+                    <input type="text" id="newAartiTitle" required placeholder="उदा. श्री महालक्ष्मी आरती" class="w-full bg-black/50 border border-amber-500/30 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-400">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-amber-300 mb-1">उपशीर्षक</label>
+                        <input type="text" id="newAartiSubtitle" placeholder="उदा. (देवीची आरती)" class="w-full bg-black/50 border border-amber-500/30 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-400">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-amber-300 mb-1">टॅग / वर्ग</label>
+                        <input type="text" id="newAartiCategory" placeholder="उदा. श्री देवी" class="w-full bg-black/50 border border-amber-500/30 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-400">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-amber-300 mb-1">आरतीचे साहित्य *</label>
+                    <textarea id="newAartiLyrics" rows="8" required placeholder="येथे आरतीचे कडवे लिहा..." class="w-full bg-black/50 border border-amber-500/30 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-400"></textarea>
+                </div>
+                <div class="pt-2 flex items-center justify-end gap-3">
+                    <button type="button" onclick="closeCustomAartiModal()" class="px-4 py-2 rounded-xl text-xs text-amber-300 hover:bg-white/5">रद्द करा</button>
+                    <button type="submit" class="glass-btn px-6 py-2 rounded-xl text-xs font-bold text-amber-200 bg-emerald-600/30 border-emerald-400/50">साठवा</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="shareModal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-md hidden flex items-center justify-center p-3">
+        <div class="glass-modal w-full max-w-sm rounded-3xl p-6 text-center shadow-2xl border border-amber-500/30 relative">
+            <button onclick="closeShareModal()" class="absolute right-4 top-4 text-amber-400/60 hover:text-amber-200 text-xl font-bold">&times;</button>
+            <div class="w-12 h-12 rounded-full glass-card mx-auto flex items-center justify-center text-amber-400 text-2xl mb-3 border border-amber-400/40">📱</div>
+            <h3 class="text-lg font-bold text-amber-200 mb-1">शेअर करा</h3>
+            <div class="bg-white p-3 rounded-2xl inline-block my-4 shadow-lg">
+                <img id="qrCodeImg" src="" alt="QR Code" class="w-44 h-44 rounded-lg mx-auto">
+            </div>
+            <button onclick="copyAppUrl()" class="w-full glass-btn py-2.5 rounded-xl text-xs font-bold text-amber-200 flex items-center justify-center gap-2">
+                <i class="fa-regular fa-copy"></i>
+                <span id="copyBtnText">लिंक कॉपी करा</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- SCRIPT WITH UPDATED 21 AARTIS -->
+    <script>
+        const DEFAULT_AARTIS = [
+            {
+                id: "aarti_1",
+                title: "सुखकर्ता दुखहर्ता",
+                subtitle: "(श्री गणपतीची आरती)",
+                category: "श्री गणेश",
+                enabled: true,
+                lyrics: `सुखकर्ता दुःखहर्ता वार्ता विघ्नाची ॥
+नुरवी पुरवी प्रेम कृपा जयाची ॥
+सर्वांगी सुंदर उटी शेंदूराची ॥
+कंठी झळके माळ मुक्ताफळांची ॥ १ ॥
+
+जय देव जय देव जय मंगलमूर्ती ॥
+दर्शनमात्रे मनकामना पुरती ॥ जय देव जय देव ॥ धृ. ॥
+
+रत्नखचित फरा तुज गौरीकुमरा ॥
+चंदनाची उटी कुंकुमकेशरा ॥
+हिरेजडीत मुकुट शोभतो बरा ॥
+रूणझुणती नुपूरे चरणी घागरिया ॥ जय देव... ॥ २ ॥
+
+लंबोदर पीतांबर फणिवरबंधना ॥
+सरळ सोंड वक्रतुंड त्रिनयना ॥
+दास रामाचा वाट पाहे सदना ॥
+संकटी पावावे निर्वाणी रक्षावे सुरवरवंदना ॥
+जय देव जय देव जय मंगलमूर्ती... ॥ ३ ॥`
+            },
+            {
+                id: "aarti_2",
+                title: "शेंदूर लाल चढायो",
+                subtitle: "(श्री गणपतीची आरती)",
+                category: "श्री गणेश",
+                enabled: true,
+                lyrics: `शेंदुर लाल चढायो अच्छा गजमुखको ॥
+दोंदिल लाल बिराजे सुत गौरीहरको ॥
+हाथ लिये गुडलड्डू सांई सुरवरको ॥
+महिमा कहे न जाय लागत हूं पदको ॥ १ ॥
+
+जय जय जी गणराज विद्यासुखदाता ॥
+धन्य तुमारा दरसन मेरा मन रमता ॥ धृ. ॥
+
+अष्टौ सिद्धी दासी संकटको बैरी ॥
+विघ्नविनाशन मंगल मूरत अधिकारी ॥
+कोटी सूरजप्रकाश ऐसी छबी तेरी ॥
+गंडस्थल मदमस्तक झूले शशिहारी ॥ जय जय जी... ॥ २ ॥
+
+भावभगतसे कोई शरणागत आवे ॥
+संतत संपत सबही भरपूर पावे ॥
+ऐसे तुम महाराज मोको अति भावे ॥
+गोसावीनंदन निशिदिन गुण गावे ॥ जय जय जी... ॥ ३ ॥`
+            },
+            {
+                id: "aarti_3",
+                title: "नाना परिमळ दुर्वा",
+                subtitle: "(श्री गणपतीची आरती)",
+                category: "श्री गणेश",
+                enabled: true,
+                lyrics: `नाना परिमळ दुर्वा शेंदुर शमिपत्रे ॥
+लाडू मोदक अन्नें परिपूरित पात्र ॥
+ऐसें पूजन केल्या बीजाक्षर मंत्र ॥
+अष्टहि सिद्धि नवनिधि देसी क्षणमात्रे ॥ १ ॥
+
+जय देव जय देव जय मंगलमूर्ती ॥
+तुझे गुण वर्णाया मज कैंची स्फूर्ती ॥ जय देव जय देव ॥ धृ. ॥
+
+तुझें ध्यान निरंतर जे कोणी करिती ॥
+त्यांचीं सकलहि पापें विघ्नेंही हरती ॥
+वाजी वारण शिबिका सेवक सुत युवती ॥
+सर्वहि पावुनी अंती भवसागर तरती ॥ जय देव... ॥ २ ॥
+
+शरणागत सर्वस्वें भजती तव चरणीं ॥
+कीर्ति तयांची राहे जोंवरि शशितरणी ॥
+त्रैलोक्यीं ते विजयी अद्भुत ते करणी ॥
+गोसावीनंदन रत नामस्मरणीं ॥ जय देव... ॥ ३ ॥`
+            },
+            {
+                id: "aarti_4",
+                title: "लवलवती विक्राळा",
+                subtitle: "(श्री शंकराची आरती)",
+                category: "श्री शंकर",
+                enabled: true,
+                lyrics: `लवथवती विक्राळा ब्रह्मांडी माळा ॥
+विषे कंठ काळा त्रिनेत्री ज्वाला ॥
+लावण्यसुंदर मस्तकी बाळा ॥
+तेथुनियां जळ निर्मळ वाहे झुळझुळां ॥ १ ॥
+
+जय देव जय देव जय श्रीशंकरा ॥
+आरती ओवाळू तुज कर्पूरगौरा ॥ जय देव जय देव ॥ धृ. ॥
+
+कर्पूरगौरा भोळा नयनी विशाळा ॥
+अर्धांगी पार्वती सुमनांच्या माळा ॥
+विभुतीचे उधळण शितिकंठ नीळा ॥
+ऐसा शंकर शोभे उमावेल्हाळा ॥ जय देव... ॥ २ ॥
+
+दैवी दैत्यीं सागर मंथन पैं केलें ॥
+त्यामाजी अवचित हलाहल जे उठिलें ॥
+तें त्वां असुरपणें प्राशन केलें ॥
+नीळकंठ नाम प्रसिद्ध झालें ॥ जय देव... ॥ ३ ॥
+
+व्याघ्रांबर फणिवरधर सुंदर मदनारी ॥
+पंचानन मनमोहन मुनिजन सुखकारी ॥
+शतकोटीचे बीज वाचे उच्चारी ॥
+रघुकुलतिलक रामदास अंतरी ॥ जय देव... ॥ ४ ॥`
+            },
+            {
+                id: "aarti_5",
+                title: "दुर्गे दुर्घट भारी",
+                subtitle: "(श्री दुर्गेची आरती)",
+                category: "श्री देवी",
+                enabled: true,
+                lyrics: `दुर्गे दुर्घट भारी तुजविण संसारी ॥
+अनाथनाथे अंबे करुणा विस्तारी ॥
+वारी वारी जन्ममरणांते वारी ॥
+हारी पडलो आता संकट वारी ॥ १ ॥
+
+जय देवी जय देवी जय महिषासुरमर्दिनी ॥
+सुरवरईश्वरवरदे तारक संजीवनी ॥ जय देवी जय देवी ॥ धृ. ॥
+
+त्रिभुवनभुवनी पाहतां तुजऐशी नाही ॥
+चारी श्रमले परंतु न बोलवे काही ॥
+साही शास्त्रे बोलता थकली लवलाही ॥
+मातृक वर्ण तुझा महिमा न कळे काही ॥ जय देवी... ॥ २ ॥
+
+प्रसन्नवदने प्रसन्न होई निजदासा ॥
+क्लेशांपासुनी सोडी तुजविण नाही आसा ॥
+अंबे तुजवाचून कोण पुरवील आशा ॥
+नरहरि तल्लीन झाला पदपंकजलेशा ॥ जय देवी... ॥ ३ ॥`
+            },
+            {
+                id: "aarti_6",
+                title: "युगे अठ्ठावीस",
+                subtitle: "(श्री विठ्ठलाची आरती)",
+                category: "श्री विठ्ठल",
+                enabled: true,
+                lyrics: `युगे अठ्ठावीस विटेवरी उभा ॥
+वामांगी रखुमाई दिसे दिव्य शोभा ॥
+पुंडलिकाचे भेटी परब्रह्म आले गा ॥
+चरणी वाहे भीमा उद्धारी जगा ॥ १ ॥
+
+जय देव जय देव जय पांडुरंगा ॥
+रखुमाईवल्लभा राईच्या वल्लभा पावे जिवलगा ॥ जय देव जय देव ॥ धृ. ॥
+
+तुळशीमाळा गळां कर ठेवूनी कटीं ॥
+कासे पीतांबर कस्तुरी लल्लाटीं ॥
+देव सुरवर नित्य येती भेटी ॥
+गरूड हनुमंत पुढे उभे राहती ॥ जय देव... ॥ २ ॥
+
+धन्य वेणूनाद अनुक्षेत्रपाळा ॥
+सुवर्णाची कमळे वनमाळा गळां ॥
+राही रखुमाईबाई राणीयां सकळां ॥
+ओवाळीती राजा विठोबा सांवळा ॥ जय देव... ॥ ३ ॥
+
+ओवाळू आरत्या कुरवंड्या येती ॥
+चंद्रभागेमाजी सोडुनिया देती ॥
+दिंड्या पताका वैष्णव नाचती ॥
+पंढरीचा महिमा वर्णावा किती ॥ जय देव... ॥ ४ ॥
+
+आषाढी कार्तिकी भक्तजन येती ॥
+चंद्रभागेमध्ये स्नाने जे करिती ॥
+दर्शनहेळामात्रे तयां होय मुक्ती ॥
+केशवासी नामदेव भावे ओवाळिती ॥ जय देव... ॥ ५ ॥`
+            },
+            {
+                id: "aarti_7",
+                title: "त्रिगुणात्मक त्रिमूर्ती",
+                subtitle: "(श्री दत्तात्रेयाची आरती)",
+                category: "श्री दत्त",
+                enabled: true,
+                lyrics: `त्रिगुणात्मक त्रैमूर्ती दत्त हा जाणा ॥
+त्रिगुणी अवतार त्रैलौक्यराणा ॥
+नेति नेति शब्दें नये अनुमाना ॥
+सुरवर मुनिजन योगी समाधि न या ध्याना ॥ १ ॥
+
+जय देव जय देव जय श्रीगुरूदत्ता ॥
+आरती ओवाळीतां हरली भवचिंता ॥ जय देव जय देव ॥ धृ. ॥
+
+सबाह्य अभ्यंतरीं तूं एक दत्त ॥
+अभाग्यासी कैंची कळेल ही मात ॥
+पराही परतली तेथें कैंचा हा हेत ॥
+जन्म मरणाचा पुरलासे अंत ॥ जय देव... ॥ २ ॥
+
+दत्त येऊनिया उभा ठाकला ॥
+सद्भावें साष्टांगें प्रणिपात केला ॥
+प्रसन्न होऊनी आशिर्वाद दिधला ॥
+जन्म-मरणाचा फेरा चुकविला ॥ जय देव... ॥ ३ ॥
+
+दत्त दत्त ऐसें लागलें ध्यान ॥
+हारपलें मन माझे उन्मन ॥
+मी तूं पणाची झाली बोळवण ॥
+एका जनार्दनी श्री दत्त ध्यान ॥ जय देव... ॥ ४ ॥`
+            },
+            {
+                id: "aarti_8",
+                title: "उत्कट साधुनी शिळा",
+                subtitle: "(श्री रामाची आरती)",
+                category: "श्री राम",
+                enabled: true,
+                lyrics: `उत्कट साधुनि शिळा सेतू बांधोनी ॥
+लिंगदेहलंकापुर विध्वंसूनी ॥
+कामक्रोधदिक राक्षस मर्दनी ॥
+देह-अहंभाव रावण निवटोनी ॥ १ ॥
+
+जयदेव जयदेव निजबोधा रामा ॥
+परमार्थे आरती, सद्भावें आरती परिपूर्णकामा ॥ धृ. ॥
+
+प्रथम सीताशुद्धी हनुमंत गेला ॥
+लंकादहन करूनी अखया मारिला ॥
+मारीला जंबूमाळी भुवनीं त्राहाटिला ॥
+आनंदाची गूढी घेउनियां आला ॥ जयदेव... ॥ २ ॥
+
+निजबळे निजशक्ती सोडविली सीता ॥
+म्हणुनी येणें झालें अयोध्ये रघुनाथा ॥
+आनंदें वोसंडे वैराग्य भरता ॥
+आरती घेउनि आली कौसल्यामाता ॥ जयदेव... ॥ ३ ॥
+
+अनुहतध्वनि गर्जति अपार ॥
+अठरा पदों वानर करिती भुभुःकार ॥
+अयोध्येसी आले दशरथकुमार ॥
+नगरी होत आहे आनंद थोर ॥ जयदेव... ॥ ४ ॥
+
+सहजसिंहासनीं राजा रघुवीर ॥
+सोहंभावें तया पूजाउपचार ॥
+सहजांची आरती वाद्यांचा गजर ॥
+माधवदासस्वामी आठव ना विसर ॥ जयदेव... ॥ ५ ॥`
+            },
+            {
+                id: "aarti_9",
+                title: "सत्राणे उड्डाणे",
+                subtitle: "(श्री मारुतीची आरती)",
+                category: "श्री हनुमान",
+                enabled: true,
+                lyrics: `सत्राणें उड्डाणें हुंकार बदनीं ॥
+करि डळमळ भूमंडळ सिंधूजळ गगनीं ॥
+कडाडिलें ब्रह्मांड धोका त्रिभुवनीं ॥
+सुरवर नर निशाचर त्यां झाल्या पळणी ॥ १ ॥
+
+जयदेव जयदेव जय श्रीहनुमंता ॥
+तुमचेनि प्रसादें न भियें कृतांता ॥ जयदेव जयदेव ॥ धृ. ॥
+
+दुमदुमिलें पाताळ उठिला पडशब्द ॥
+धगधगिला धरणीधर मानिला खेद ॥
+कडाडिले पर्वत उड्डगण उच्छेद ॥
+रामींरामदासा शक्तीचा शोध ॥ जयदेव... ॥ २ ॥`
+            },
+            {
+                id: "aarti_10",
+                title: "येई हो विठ्ठले माझे",
+                subtitle: "(श्री विठ्ठलाची आरती)",
+                category: "श्री विठ्ठल",
+                enabled: true,
+                lyrics: `येई हो विठ्ठले माझे माउली ये ॥
+निढळावरी कर ठेवूनि वाट मी पाहें ॥ धृ. ॥
+
+आलिया गेलिया हातीं धाडी निरोप ॥
+पंढरपुरीं आहे माझा मायबाप ॥ १ ॥
+
+पिवळा पीतांबर कैसा गगनीं झळकला ॥
+गरूडावरि बैसोनि माझा कैवारी आला ॥ २ ॥
+
+विठोबाचें राज्य आम्हां नित्य दिपवाळी ॥
+विष्णुदास नामा जीवेंभावें ओवाळी ॥ ३ ॥
+
+असो नसो भाव आम्हां तुझिया ठायां ॥
+कृपादृष्टि पाहें माझ्या पंढरीराया ॥ ४ ॥`
+            },
+            {
+                id: "aarti_11",
+                title: "ओवाळू आरती मदनगोपाळा",
+                subtitle: "(श्रीकृष्णाची आरती)",
+                category: "श्री कृष्ण",
+                enabled: true,
+                lyrics: `ओवाळू आरती मदनगोपाळा ॥
+श्यामसुंदर गळां वैजयंतीमाळा ॥ धृ. ॥
+
+चरणकमल ज्याचे अति सुकुमार ॥
+ध्वजवज्रांकुश ब्रीदांचे तोडर ॥ १ ॥
+
+नाभिकमलीं ज्याच्या ब्रह्मयाचें स्थान ॥
+हृदयीं पदक शोभे श्रीवत्सलांच्छन ॥ २ ॥
+
+मुखकमल पाहातां सूर्याच्या कोटी ॥
+मोहियंलें मानस कोंदिवेली दृष्टी ॥ ३ ॥
+
+रत्नजडित मुगुट ज्याचा दैदीप्यमान ॥
+तेणें तेजें कोंदलें अवघे त्रिभुवन ॥ ४ ॥
+
+एका जनार्दनीं देखियेलें रूप ॥
+रूप पाहातां झाले तद्रूप ॥ ५ ॥`
+            },
+            {
+                id: "aarti_12",
+                title: "आरती ज्ञानराजा",
+                subtitle: "(श्री ज्ञानेश्वरांची आरती)",
+                category: "संत",
+                enabled: true,
+                lyrics: `आरती ज्ञानराजा ॥ महाकैवल्यतेजा ॥
+सेविती साधुसंत ॥ मनु वेधला माझा ॥ धृ. ॥
+
+लोपलें ज्ञान जगीं ॥ हित नेणती कोणी ॥
+अवतार पांडूरंग ॥ नाम ठेविलें ज्ञानी ॥ १ ॥
+
+कनकाचे ताट करीं ॥ उभ्या गोपिका नारी ॥
+नारद तुंबरही ॥ साम गायन करी ॥ २ ॥
+
+प्रगट गुह्य बोले ॥ विश्व ब्रह्मचि केलें ॥
+रामा जनार्दनीं ॥ पायीं मस्तक ठेविलें ॥ ३ ॥`
+            },
+            {
+                id: "aarti_13",
+                title: "आरती साईबाबा",
+                subtitle: "(श्री साईबाबांची आरती)",
+                category: "श्री साई",
+                enabled: true,
+                lyrics: `आरती साईबाबा ॥ सौख्यदातारा जीवां ॥
+चरणरजतळीं निज दासां विसावा ॥ भक्तां विसावा ॥ धृ. ॥
+
+जाळुनियां अनंग ॥ स्वस्वरूपीं राहे दंग ॥
+मुमुक्षुजनां दावी ॥ निज डोळां श्रीरंग ॥ डोळां श्रीरंग ॥ १ ॥
+
+जया मनीं जैसा भाव ॥ तया तैसा अनुभव ॥
+दाविसी दयाघना ॥ एसी तुझी ही माव ॥ २ ॥
+
+तुमचें नाम ध्यातां ॥ हरे संसृतिव्यथा ॥
+अगाध तव करणी ॥ मार्ग दाविसी अनाथा ॥ ३ ॥
+
+कलियुगीं अवतार ॥ सगुणब्रह्म साचार ॥
+अवतीर्ण झालासे ॥ स्वामी दत्त दिगंबर ॥ ४ ॥
+
+आठां दिवसां गुरूवारीं ॥ भक्त करिती वारी ॥
+प्रभुपद पहावया ॥ भवभय निवारी ॥ ५ ॥
+
+माझा निजद्रव्य ठेवा ॥ तव चरणरजसेवा ॥
+मागणें हेंचि आतां ॥ तुम्हां देवाधिदेवा ॥ ६ ॥
+
+इच्छित दीन चातक ॥ निर्मळ तोय निजसुख ॥
+पाजावें माधवा या ॥ सांभाळ आपुली ही भाक ॥ ७ ॥`
+            },
+            {
+                id: "aarti_14",
+                title: "मै तो आरती उतारू रे",
+                subtitle: "(श्री संतोषी मातेची आरती)",
+                category: "श्री देवी",
+                enabled: true,
+                lyrics: `मैं तो आरती उतारूं रे संतोषी माता की ॥
+मैं तो आरती उतारूं रे जय जय । संतोषी माता जय जय मां ॥ धृ. ॥
+
+बडी ममता है, बडा प्यार मां की आंखों में ॥
+बडी करुणा है, माया दुलार मां की आंखों में ॥
+दिखे हर घडी नया चमत्कार मां की आंखों में ॥
+नृत्य करूं छम छम झम झमा झम छम छम ॥
+झांकी निहारूं रे ओ प्यारी झांकी निहारूं रे ॥ १ ॥
+
+सदा होती है जय जयकार मां के मंदिर में ॥
+नित्त झांझर की होए झनकार मां के मंदिर में ॥
+सदा मंजिरे करते पुकार मां के मंदिर में ॥
+दीप धरूं धूप करूं प्रेम सहित भक्ति करूं ॥
+जीवन सुधारूं रे ओ प्यारा प्यारा जीवन सुधारूं रे ॥ २ ॥`
+            },
+            {
+                id: "aarti_15",
+                title: "ओम जय जगदीश हरे",
+                subtitle: "(श्री विष्णु/जगदीश आरती)",
+                category: "श्री विष्णु",
+                enabled: true,
+                lyrics: `ॐ जय जगदीश हरे, स्वामी जय जगदीश हरे ॥
+भक्तजनों के संकट क्षण में दूर करे ॥ ॐ जय जगदीश हरे ॥ धृ. ॥
+
+जो ध्यावे फल पावे, दुख बिन से मनका ॥
+सुख सम्पति घर आवे, कष्ट मिटे तनका ॥ ॐ... ॥ १ ॥
+
+मात-पिता तुम मेरे, शरण गहूं किसकी ॥
+तुम बिन और न दूजा, आस करूं जिसकी ॥ ॐ... ॥ २ ॥
+
+तुम पूरण परमात्मा, तुम अन्तर्यामी ॥
+पारब्रह्म परमेश्वर, तुम सबके स्वामी ॥ ॐ... ॥ ३ ॥
+
+तुम करुणा के सागर, तुम पालनकरता ॥
+मैं मूरख खल कामी, कृपा करो भरतार ॥ ॐ... ॥ ४ ॥
+
+तुम हो एक अगोचर, सबके प्राणपति ॥
+किस विधि मिलूं दयामय, तुमको मैं कुमती ॥ ॐ... ॥ ५ ॥
+
+दीनबन्धु दुखहर्ता, तुम ठाकुर मेरे ॥
+अपने हाथ उठाओ, द्वार पड़ा तेरे ॥ ॐ... ॥ ६ ॥
+
+विषय विकार मिटाओ, पाप हरो देवा ॥
+श्रद्धा भक्ति बढ़ाओ, सन्तन की सेवा ॥ ॐ... ॥ ७ ॥`
+            },
+            {
+                id: "aarti_16",
+                title: "आरती नित्यानंद राया",
+                subtitle: "(श्री नित्यानंद रायांची आरती)",
+                category: "श्री गुरु",
+                enabled: true,
+                lyrics: `जय जय आरती नित्यानंद राया। सगुणारूपी गोबिंदा।।
+
+प्रथमा दत्तघेसी। द्वितीया श्रीपाद होसी।
+तृतीथा नरहरी बनसी त्या गाणगानुरी लिला दाबीसी ।।
+जय जय आरती नित्यानंद राया... ॥ १ ॥
+
+हिंदूधर्ममहाडीक प्रभू तु होसी । अक्कलकोट स्वामी बनसी।
+शिर्डी साईनाथ होसी । त्या गणेशपूरी तू वससी ।।
+जय जय आरती नित्यानंद राया... ॥ २ ॥
+
+वो ऐसे अनेक रूप घेसी। त्या कनकवळी भालचंद्र होसी ।
+त्या शेगावी गजानन होसी । त्या बाळांना बहू आवडी ।
+त्या बाळांच्या इच्छा पुरविशी।
+जय जय आरती नित्यानंद राया... ॥ ३ ॥
+
+पावना शंभो, पतीत पावना शंभो,
+ये रं वनमाळी सावळ्या, नारायणा हुरी,या भक्तजना सांभाळी
+सावळया थेरं वनमाळीपावना... ॥ ४ ॥
+
+पावना दत्ता दत्ता दत्ता पावना दत्ता,पावना दत्ता पतित पावना दत्ता
+वंदीला बोलो, आज्ञा वंदीला बोलो
+वो भजे राजे गोविंद, भजे राजे गोविंद... ॥ ५ ॥`
+            },
+            {
+                id: "aarti_17",
+                title: "त्रिभुवन मंडित माळ",
+                subtitle: "(श्री रामाची आरती)",
+                category: "श्री राम",
+                enabled: true,
+                lyrics: `त्रिभुवनमंडितमाळ शोभतसे गळा ।
+आरती ओवाळू पाहू ब्रह्मपुतळा ॥ १ ॥
+
+श्रीराम जय राम जय जय राम ।
+आरती ओवाळू पाहू सुंदर मेघश्याम ॥ धृ० ॥
+
+ठकाराचे ठाण करी धनुष्यबाण ।
+मारुती सन्मुख उभा कर जोडून ॥ श्रीराम० ॥ २ ॥
+
+भरत शत्रुघ्न दोघे चामर ढाळिती ।
+स्वर्गीहूनी देव पुष्पवृष्टि करिती ॥ श्रीराम० ॥ ३ ॥
+
+रत्नखचित माणिक वर्णू काय मुगुटी ।
+आरती ओवाळू चवदा भुवनांचे पोटी ॥ श्रीराम० ॥ ४ ॥
+
+विष्णुदास नामा म्हणे मागतो तूते ।
+आरती ओवाळू पाहू सीतापतीते ॥
+श्रीराम जय राम जय जय राम ॥ ५ ॥`
+            },
+            {
+                id: "aarti_18",
+                title: "आरती सप्रेम",
+                subtitle: "(श्री दशावताराची आरती)",
+                category: "श्री विष्णु",
+                enabled: true,
+                lyrics: `आरती सप्रेम जय जय विठ्ठल परब्रह्मा ॥
+भक्तसंकटीं नाना स्वरूपें स्थापिसी स्वधर्मा ॥ धृ. ॥
+
+अंबरिषाकारणें गर्भवास सोशीसी ॥
+वेद नेले चोरूनि ब्रम्हया आणुनियां देसी ॥
+मत्स्यरूपी नारायण सप्तहि सागर धुंडीसी ॥
+हस्त तुझा लागतां शंखासुरा वर देसी ॥ १ ॥
+
+रसातळाशीं जातां पृथ्वी पाठीवरि घेसी ॥
+परोपकारासाठीं देवा कासव झालासी ॥
+दाढे धरूडी पृथ्वी नेतां वराहरूप होसी ॥
+प्रल्हादाकारणें नरहरि स्तंभीं गुरगुरसी ॥ २ ॥
+
+पांचवे अवतारीं बळीच्या द्वारला जासी ॥
+भिक्षे स्थळ मागुनी बळीला पाताळा नेसी ॥
+सर्व समर्पण केलें म्हणवुनि प्रसन्न या होसी ॥
+वामनरूप धरूनी बळीच्या द्वारीं तिष्ठसो ॥ ३ ॥
+
+सहस्त्रार्जुन मातला जमनीचा बंध केला ॥
+कष्टी ते रेणुका म्हणुनी सहस्त्रार्जुन वधिला ॥
+निःक्षत्री पृथ्वी दान दिधली विप्राला ॥
+सहावा अवतार परशुराम प्रगटला ॥ ४ ॥
+
+मातला रावणा सर्वां उपद्रव केला ॥
+तेहतीस कोटी देव बंदी हरिलें सीतेला ॥
+पितृवचनालागीं रामें वनवास केला ॥
+मिळवुनि वानरसेना राजा राम प्रगटला ॥ ५ ॥
+
+देवकीवसुदेव बंदी मोचन त्वां केलें ॥
+नंदाघरि जाउनी निजसुख गोकूळा दिधलें ॥
+गोरस चोरी करितां नवलक्ष गोपाळ मिळवीले ॥
+गोपीकांचें प्रेम देखुनी श्रीकृष्ण भुलले ॥ ६ ॥
+
+बौद्ध कलंकी कलियुगीं अधर्म हा अवघा ॥
+सोडुनि दिधला धर्म म्हणवूनी न दिससी देवा ॥
+म्लेंच्छमर्दन करिसी म्हणुनी कलंकि केशवा ॥
+बहिरवि जान्हवि द्यावी निजसुखानंद सेवा ॥ ७ ॥`
+            },
+            {
+                id: "aarti_19",
+                title: "घालीन लोटांगण",
+                subtitle: "(प्रार्थना व नमन)",
+                category: "प्रार्थना",
+                enabled: true,
+                lyrics: `घालीन लोटांगण वंदीन चरण ॥
+डोळ्यांनी पाहिन रूप तुझे ॥
+प्रेमे आलिंगिन आनंदे पूजिन ॥
+भावे ओवाळिन म्हणे नामा ॥ १ ॥
+
+त्वमेव माता च पिता त्वमेव ॥
+त्वमेव बंधुश्च सखा त्वमेव ॥
+त्वमेव विद्या द्रविणं त्वमेव ॥
+त्वमेव सर्वं मम देवदेव ॥ २ ॥
+
+कायेन वाचा मनसेंद्रियैर्वा ॥
+बुद्ध्यात्मना वा प्रकृतेः स्वभावात् ॥
+करोमि यद्यत्सकल परस्मै ॥
+नारायणायेति समर्पयामि ॥ ३ ॥
+
+अच्युतं केशवं रामनारायणं ॥
+कृष्णदामोदरं वासुदेवं हरिम् ॥
+श्रीधरं माधवं गोपिकावल्लभम् ॥
+रामचंद्रं भजे जानकीनायकम् ॥ ४ ॥`
+            },
+            {
+                id: "aarti_20",
+                title: "सदा सर्वदा",
+                subtitle: "(श्लोक व प्रार्थना)",
+                category: "श्लोक",
+                enabled: true,
+                lyrics: `सदा सर्वदा योग तुझा घडावा ॥
+तुझे कारणी देह माझा पडावा ॥
+उपेक्षीू नको गुणवंता अनंता ॥
+रघुनायका मागणे हेचि आता ॥ १ ॥
+
+मोरया मोरया मी बाळ तान्हे ॥
+तुझीच सेवा करू काय जाणे ॥
+अन्याय माझे कोट्यानुकोटी ॥
+घालावे पोटी तुजप्रती देवा ॥ २ ॥`
+            },
+            {
+                id: "aarti_21",
+                title: "मंत्र पुष्पांजलि",
+                subtitle: "(आरती संग्रह विशेष मन्त्रपुष्पाञ्जली)",
+                category: "मंत्र",
+                enabled: true,
+                lyrics: `ॐ यज्ञेन यज्ञमयजन्त देवास्तानि धर्माणि प्रथमान्यासन् ।
+ते ह नाकं महिमानः सचन्त यत्र पूर्वे साध्याः सन्ति देवाः ॥
+
+ॐ राजाधिराजाय प्रसह्यसाहिने नमो वयं वैश्रवणाय कुर्महे ।
+स मे कामान् कामाकामाय मह्यं ।
+कामेश्वरो वैश्रवणो ददातु ।
+कुबेराय वैश्रवणाय महाराजाय नमः ॥
+
+ॐ स्वस्ति । साम्राज्यं भौज्यं स्वराज्यं वैराज्यं पारमेष्ठयं राज्यं महाराज्यमाधिपत्यमयं समंतपर्यायि स्यात् सार्वभौमः सार्वायुष आंतादापरार्धात् पृथिव्यै समुद्रपर्यन्ताया एकराळिति ॥
+
+तदप्येष श्लोकोऽभिगीतो 'मरुतः परिवेष्टारो मरुत्तस्यावसन् गृहे ।
+अविक्षितस्य कामप्रेर्विश्वेदेवाः सभासद' इति ॥
+
+ॐ एकदंताय विद्महे वक्रतुंडाय धीमहि ।
+तन्नो दंती प्रचोदयात् ॥
+
+श्री शुभं भवतु ॥`
+            }
+        ];
+
+        let aartisList = [];
+        let activeAartiIndex = 0;
+        let fontSizePx = 22;
+        let currentFontFamily = 'sans';
+        let autoScrollInterval = null;
+        let isAutoScrolling = false;
+        let scrollSpeedFactor = 3;
+
+        window.onload = function() {
+            loadSavedAartis();
+            renderSequenceBar();
+            loadAartiContent(0);
+            initBokehCanvas();
+            generateQRCode();
+
+            window.addEventListener('resize', initBokehCanvas);
+        };
+
+        function loadSavedAartis() {
+            const saved = localStorage.getItem('ganpati_gauri_aartis_v3');
+            if (saved) {
+                try {
+                    aartisList = JSON.parse(saved);
+                } catch(e) {
+                    aartisList = JSON.parse(JSON.stringify(DEFAULT_AARTIS));
+                }
+            } else {
+                aartisList = JSON.parse(JSON.stringify(DEFAULT_AARTIS));
+                localStorage.setItem('ganpati_gauri_aartis_v3', JSON.stringify(aartisList));
+            }
+        }
+
+        function saveAartisToStorage() {
+            localStorage.setItem('ganpati_gauri_aartis_v3', JSON.stringify(aartisList));
+        }
+
+        function renderSequenceBar() {
+            const container = document.getElementById('sequenceBarContainer');
+            container.innerHTML = '';
+
+            let enabledCount = 0;
+            aartisList.forEach((item, index) => {
+                if (!item.enabled) return;
+                enabledCount++;
+
+                const btn = document.createElement('button');
+                btn.onclick = () => selectAartiByIndex(index);
+                
+                const isActive = (index === activeAartiIndex);
+                btn.className = `px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all flex items-center gap-1.5 ${
+                    isActive 
+                    ? 'glass-card-active text-amber-200 border-amber-400 font-bold scale-105' 
+                    : 'glass-card text-amber-100/70 hover:text-white hover:bg-white/10'
+                }`;
+
+                btn.innerHTML = `
+                    <span class="text-[10px] opacity-75 font-mono bg-amber-500/20 px-1.5 py-0.5 rounded-full border border-amber-400/20">${enabledCount}</span>
+                    <span>${item.title}</span>
+                `;
+                container.appendChild(btn);
+            });
+        }
+
+        function selectAartiByIndex(index) {
+            activeAartiIndex = index;
+            renderSequenceBar();
+            loadAartiContent(index);
+        }
+
+        function loadAartiContent(index) {
+            if (index < 0 || index >= aartisList.length) return;
+            activeAartiIndex = index;
+
+            const item = aartisList[index];
+            document.getElementById('aartiTitle').innerText = item.title;
+            document.getElementById('aartiSubtitle').innerText = item.subtitle || '';
+            document.getElementById('aartiDeityBadge').innerText = item.category || 'आरती';
+
+            const enabledList = aartisList.filter(a => a.enabled);
+            const activeEnabledPos = enabledList.findIndex(a => a.id === item.id) + 1;
+            document.getElementById('aartiCounterText').innerText = `${activeEnabledPos > 0 ? activeEnabledPos : 1} / ${enabledList.length}`;
+
+            const container = document.getElementById('lyricsContent');
+            container.innerHTML = '';
+
+            const verses = item.lyrics.split('\n\n');
+            verses.forEach((verse) => {
+                const verseDiv = document.createElement('div');
+                verseDiv.className = 'verse-block text-amber-50 tracking-wide font-medium shadow-sm';
+                verseDiv.style.fontSize = `${fontSizePx}px`;
+
+                const lines = verse.split('\n');
+                lines.forEach((line) => {
+                    const lineSpan = document.createElement('div');
+                    lineSpan.innerText = line;
+                    if (line.includes('जय देव') || line.includes('जय देवी') || line.includes('धृ.') || line.includes('जय जय') || line.includes('श्रीराम')) {
+                        lineSpan.className = 'text-gold-gradient font-bold my-1';
+                    }
+                    verseDiv.appendChild(lineSpan);
+                });
+
+                container.appendChild(verseDiv);
+            });
+
+            applyFontFamily();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function navigateAarti(direction) {
+            let nextIndex = activeAartiIndex + direction;
+            while (nextIndex >= 0 && nextIndex < aartisList.length && !aartisList[nextIndex].enabled) {
+                nextIndex += direction;
+            }
+            if (nextIndex >= 0 && nextIndex < aartisList.length) {
+                selectAartiByIndex(nextIndex);
+            }
+        }
+
+        function adjustFontSize(delta) {
+            fontSizePx = Math.max(16, Math.min(42, fontSizePx + delta));
+            document.getElementById('fontSizeDisplay').innerText = `${fontSizePx}px`;
+            document.querySelectorAll('.verse-block').forEach(b => b.style.fontSize = `${fontSizePx}px`);
+        }
+
+        function setFontFamily(type) {
+            currentFontFamily = type;
+            document.getElementById('fontBtnSans').className = `px-2.5 py-1 rounded-lg text-xs font-medium transition-all ${type === 'sans' ? 'bg-amber-500/30 text-amber-200 border border-amber-400/50' : 'text-amber-300 hover:bg-white/5'}`;
+            document.getElementById('fontBtnSerif').className = `px-2.5 py-1 rounded-lg text-xs font-medium transition-all ${type === 'serif' ? 'bg-amber-500/30 text-amber-200 border border-amber-400/50' : 'text-amber-300 hover:bg-white/5'}`;
+            document.getElementById('fontBtnCalligraphy').className = `px-2.5 py-1 rounded-lg text-xs font-medium transition-all ${type === 'calligraphy' ? 'bg-amber-500/30 text-amber-200 border border-amber-400/50' : 'text-amber-300 hover:bg-white/5'}`;
+            applyFontFamily();
+        }
+
+        function applyFontFamily() {
+            const container = document.getElementById('lyricsContent');
+            if (currentFontFamily === 'sans') container.style.fontFamily = 'var(--font-devanagari-sans)';
+            else if (currentFontFamily === 'serif') container.style.fontFamily = 'var(--font-devanagari-serif)';
+            else if (currentFontFamily === 'calligraphy') container.style.fontFamily = 'var(--font-devanagari-calligraphy)';
+        }
+
+        function toggleAutoScroll() {
+            isAutoScrolling = !isAutoScrolling;
+            const btn = document.getElementById('autoScrollToggleBtn');
+            const icon = document.getElementById('scrollPlayIcon');
+            const text = document.getElementById('scrollStatusText');
+
+            if (isAutoScrolling) {
+                btn.className = "glass-btn px-3 py-1 rounded-lg flex items-center gap-1.5 text-xs font-semibold text-rose-300 border-rose-500/40";
+                icon.className = "fa-solid fa-pause";
+                text.innerText = "स्क्रोल थांबवा";
+                startAutoScrollTimer();
+            } else {
+                btn.className = "glass-btn px-3 py-1 rounded-lg flex items-center gap-1.5 text-xs font-semibold text-emerald-300 border-emerald-500/40";
+                icon.className = "fa-solid fa-play";
+                text.innerText = "ऑटो-स्क्रोल चालू";
+                clearInterval(autoScrollInterval);
+            }
+        }
+
+        function updateScrollSpeed(val) {
+            scrollSpeedFactor = parseInt(val, 10);
+            document.getElementById('speedValueDisplay').innerText = `${val}x`;
+            if (isAutoScrolling) startAutoScrollTimer();
+        }
+
+        function startAutoScrollTimer() {
+            clearInterval(autoScrollInterval);
+            const intervalMs = Math.max(20, 110 - (scrollSpeedFactor * 9));
+            autoScrollInterval = setInterval(() => {
+                const currentScroll = window.scrollY;
+                const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+                if (currentScroll >= maxScroll - 2) toggleAutoScroll();
+                else window.scrollBy(0, 1);
+            }, intervalMs);
+        }
+
+        function openManageModal() {
+            renderManageList();
+            document.getElementById('manageModal').classList.remove('hidden');
+        }
+
+        function closeManageModal() {
+            document.getElementById('manageModal').classList.add('hidden');
+            renderSequenceBar();
+            loadAartiContent(activeAartiIndex);
+        }
+
+        function renderManageList() {
+            const listContainer = document.getElementById('manageAartiList');
+            listContainer.innerHTML = '';
+
+            aartisList.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = "glass-card p-3 rounded-2xl flex items-center justify-between gap-3 border border-amber-500/20";
+                card.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" ${item.enabled ? 'checked' : ''} onchange="toggleAartiVisibility(${index})" class="w-4 h-4 accent-amber-500 rounded cursor-pointer">
+                        <div>
+                            <h4 class="text-sm font-bold text-amber-200">${item.title}</h4>
+                            <p class="text-[10px] text-amber-200/60">${item.subtitle || ''}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <button onclick="moveAartiOrder(${index}, -1)" ${index === 0 ? 'disabled class="opacity-30 p-1.5"' : 'class="glass-btn p-1.5 rounded-lg text-amber-300"'} title="वर घ्या">
+                            <i class="fa-solid fa-arrow-up text-xs"></i>
+                        </button>
+                        <button onclick="moveAartiOrder(${index}, 1)" ${index === aartisList.length - 1 ? 'disabled class="opacity-30 p-1.5"' : 'class="glass-btn p-1.5 rounded-lg text-amber-300"'} title="खाली घ्या">
+                            <i class="fa-solid fa-arrow-down text-xs"></i>
+                        </button>
+                        ${item.isCustom ? `
+                            <button onclick="deleteCustomAarti('${item.id}')" class="p-1.5 text-rose-400 ml-1" title="हटवा">
+                                <i class="fa-solid fa-trash-can text-xs"></i>
+                            </button>
+                        ` : ''}
+                    </div>
+                `;
+                listContainer.appendChild(card);
+            });
+        }
+
+        function toggleAartiVisibility(index) {
+            aartisList[index].enabled = !aartisList[index].enabled;
+            saveAartisToStorage();
+            renderManageList();
+        }
+
+        function moveAartiOrder(index, direction) {
+            const newIndex = index + direction;
+            if (newIndex < 0 || newIndex >= aartisList.length) return;
+
+            const temp = aartisList[index];
+            aartisList[index] = aartisList[newIndex];
+            aartisList[newIndex] = temp;
+
+            if (activeAartiIndex === index) activeAartiIndex = newIndex;
+            else if (activeAartiIndex === newIndex) activeAartiIndex = index;
+
+            saveAartisToStorage();
+            renderManageList();
+        }
+
+        function resetAartiOrder() {
+            aartisList = JSON.parse(JSON.stringify(DEFAULT_AARTIS));
+            saveAartisToStorage();
+            renderManageList();
+        }
+
+        function openCustomAartiModal() {
+            document.getElementById('customAartiModal').classList.remove('hidden');
+        }
+
+        function closeCustomAartiModal() {
+            document.getElementById('customAartiModal').classList.add('hidden');
+            document.getElementById('addAartiForm').reset();
+        }
+
+        function handleSaveCustomAarti(event) {
+            event.preventDefault();
+            const title = document.getElementById('newAartiTitle').value.trim();
+            const subtitle = document.getElementById('newAartiSubtitle').value.trim();
+            const category = document.getElementById('newAartiCategory').value.trim();
+            const lyrics = document.getElementById('newAartiLyrics').value.trim();
+
+            if (!title || !lyrics) return;
+
+            const newAarti = {
+                id: 'custom_' + Date.now(),
+                title: title,
+                subtitle: subtitle ? `(${subtitle})` : '',
+                category: category || 'इतर आरती',
+                enabled: true,
+                isCustom: true,
+                lyrics: lyrics
+            };
+
+            aartisList.push(newAarti);
+            saveAartisToStorage();
+            closeCustomAartiModal();
+            renderSequenceBar();
+            selectAartiByIndex(aartisList.length - 1);
+        }
+
+        function deleteCustomAarti(id) {
+            aartisList = aartisList.filter(a => a.id !== id);
+            saveAartisToStorage();
+            renderManageList();
+        }
+
+        function openShareModal() { document.getElementById('shareModal').classList.remove('hidden'); }
+        function closeShareModal() { document.getElementById('shareModal').classList.add('hidden'); }
+
+        function generateQRCode() {
+            const url = window.location.href;
+            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(url)}&color=800000`;
+            document.getElementById('qrCodeImg').src = qrUrl;
+        }
+
+        function copyAppUrl() {
+            const tempInput = document.createElement('input');
+            tempInput.value = window.location.href;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+
+            const btnText = document.getElementById('copyBtnText');
+            btnText.innerText = "कॉपी झाले! ✓";
+            setTimeout(() => { btnText.innerText = "लिंक कॉपी करा"; }, 2000);
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => {});
+                document.getElementById('fsIcon').className = "fa-solid fa-compress text-amber-300";
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                    document.getElementById('fsIcon').className = "fa-solid fa-expand text-amber-300";
+                }
+            }
+        }
+
+        function initBokehCanvas() {
+            const canvas = document.getElementById('bokehCanvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const particles = [];
+            const particleCount = Math.min(35, Math.floor(window.innerWidth / 25));
+
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    radius: Math.random() * 4 + 1.5,
+                    color: Math.random() > 0.4 ? 'rgba(251, 191, 36, ' : 'rgba(244, 63, 94, ',
+                    alpha: Math.random() * 0.5 + 0.2,
+                    speedY: - (Math.random() * 0.4 + 0.1),
+                    speedX: (Math.random() - 0.5) * 0.3
+                });
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.y += p.speedY;
+                    p.x += p.speedX;
+                    if (p.y < -10) p.y = canvas.height + 10;
+                    if (p.x < -10) p.x = canvas.width + 10;
+                    if (p.x > canvas.width + 10) p.x = -10;
+
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = p.color + p.alpha + ')';
+                    ctx.shadowBlur = 12;
+                    ctx.shadowColor = '#f59e0b';
+                    ctx.fill();
+                });
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+    </script>
+</body>
+</html>
